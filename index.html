@@ -1,0 +1,219 @@
+<body>
+    <style>
+      
+      body {
+        text-align: center;
+      }
+  
+      h1{
+      color: #ffa7e2;
+      text-align: center;
+      padding-top: 9px;
+      font-size: 90;
+      
+      }
+      h2{
+      color: #ffae00;
+      text-align: center;
+      padding-top: 8px;
+      font-size: 40;
+  
+    }
+      h3{
+      color: #000000;
+      text-align: center;
+      padding-top: 8px;
+      font-size: 40;
+  
+  
+  
+  }
+  @keyframes anim{
+      0%,100%{
+          transform: scale(1);
+      }
+      50%{
+          transform: scale(1.2);
+      }
+  }
+  
+  *{
+      font-family: 'Roboto', 'Segoe UI';
+      margin:0; padding:0;
+      box-sizing: border-box;
+      outline: none; border:none;
+      text-decoration: none;
+      text-transform: none;
+      transition: all .5s linear;
+      line-height: 1.5;
+  }
+      
+  .container {
+          margin: 0 auto;
+          background-color: rgba(75, 75, 75, 0.993);
+          border-radius: 0px;
+          padding: 100px ;
+          width: 100vw;
+      }
+      .action {
+        max-width: 800px;
+        padding: 40px 0;
+        margin: 0 auto;
+        background-color: rgb(255, 138, 220);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-evenly;
+        border-radius: 20px;
+        
+      }
+      .options {
+        flex: 1 1 30%;
+        border-style: solid;
+        border-color: rgb(255, 0, 85);
+        padding: 10px;
+        animation-name: anim-fade;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+        width: 100%;
+        max-width: 120px;
+        box-shadow: 0 9px #797777;
+        
+      }
+      .options:hover {background-color: #ff6363}
+  
+      .options:active {
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+  
+      }
+      .display-moves {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-evenly;
+      }
+      .move {
+        border-radius: 60;
+        border-width: 6px;
+  
+        border-style: dashed;
+        border-color: rgb(255, 0, 85);
+      }
+      .separator {
+        font-size: 10em;
+        color: #ffffff;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        animation: anim 1s linear infinite;
+      }
+  
+    </style>
+    <div class="container">
+      <h1>The Rock Paper Scissors Game</h1>
+     <br><br><br>
+      <h2>
+        PLAYER <span id="p-score">0</span> - <span id="c-score">0</span> COMPUTER
+      </h2>
+      <div class="display-moves">
+        <div class="move">
+          <img id="p-move" src="./assets/Rock.svg">
+        </div>
+        <div class="separator">VS</div>
+        <div class="move">
+          <img id="c-move" src="./assets/Rock.svg">
+        </div>
+      </div>
+      
+      <div class="action">
+        <h3>CLICK TO CHOOSE:<h3></h3>
+        <input class="options" type="image" src="./assets/Rock.svg" value="Rock" />
+        <input class="options" type="image" src="./assets/Paper.svg" value="Paper" />
+        <input class="options" type="image" src="./assets/Scissors.svg" value="Scissors" />
+      </div>
+    </div>
+    <script>
+      const options = document.querySelectorAll(".options");
+      let pScore = 0;
+      let cScore = 0;
+  
+      options.forEach((option) => {
+        option.addEventListener("click", function () {
+          const pInput = this.value;
+  
+          const cOptions = ["Rock", "Paper", "Scissors"];
+          const cInput = cOptions[Math.floor(Math.random() * 3)];
+          
+          updateMoves(pInput, cInput);
+          compareInputs(pInput, cInput);
+          updateScore();
+          if(checkWinner()){
+            pScore = cScore= 0;
+            updateScore();
+          }
+        });
+      });
+  
+      function updateMoves(pInput, cInput){
+        document.getElementById("p-move").src = `./assets/${pInput}.svg`;
+        document.getElementById("c-move").src = `./assets/${cInput}.svg`;
+      }
+  
+  
+      function compareInputs(pInput, cInput) {
+        const currentMatch = `${pInput} vs ${cInput}`;
+        if (pInput === cInput) {
+          alert(`${currentMatch} IT'S A TIE`);
+          return;
+        }
+  
+        if (pInput === "Rock") {
+          if (cInput === "Scissors") {
+            alert(`${currentMatch} = YOU WIN`);
+            pScore++;
+          } else {
+            alert(`${currentMatch} = COMPUTER WINS`);
+            cScore++;
+          }
+        }
+        //Check for Paper
+        else if (pInput === "Paper") {
+          if (cInput === "Rock") {
+            alert(`${currentMatch} = YOU WIN`);
+            pScore++;
+          } else {
+            alert(`${currentMatch} = COMPUTER WINS`);
+            cScore++;
+          }
+        }
+        //Check for Scissors
+        else {
+          if (cInput === "Paper") {
+            alert(`${currentMatch} = YOU WIN`);
+            pScore++;
+          } else {
+            alert(`${currentMatch} = COMPUTER WINS`);
+            cScore++;
+          }
+        }
+      }
+  
+      function updateScore() {
+        document.getElementById("p-score").textContent = pScore;
+        document.getElementById("c-score").textContent = cScore;
+      }
+  
+      function checkWinner() {
+        if (pScore === 5 || cScore === 5) {
+          const winner =
+            pScore === 5
+              ? "<<=== CONGRATULATIONS YOU ARE THE WINNER!! ===>>"
+              : "<<=== GOOD EFFORT, GAME IS NOT OVER TRY AGAIN!! ===>> ";
+          alert(winner);
+          return true;
+        }
+        return false;
+      }
+    </script>
+  </body>
+  
